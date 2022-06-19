@@ -8,6 +8,7 @@ today = date.today()
 
 # Create your models here.
 
+
 # Application form
 SHAXS = [
     ("yuridik", "Yuridik"),
@@ -26,6 +27,7 @@ class Applications_form(models.Model):
 
     def __str__(self):
         return self.full_name
+
 
 # Sponsors
 CONDITIONS = [
@@ -51,6 +53,7 @@ class Sponsor(models.Model):
 
     def __str__(self):
         return self.full_name
+
 
 # Students
 MAJORS = [
@@ -83,3 +86,5 @@ class Student(models.Model):
 
     def __str__(self):
         return self.full_name
+
+

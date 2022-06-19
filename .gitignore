@@ -649,7 +649,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-.TZ.txt
+TZ.txt
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 

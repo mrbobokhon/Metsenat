@@ -16,6 +16,6 @@ class SponsorsView(generics.ListAPIView):
 
 
 class ApplicationFormView(generics.CreateAPIView):
-    queryset = Applications_form.objects.all()
-    serializer_class = ApplicationFormSerializer
+    queryset = SponsorApplication.objects.all()
+    serializer_class = SponsorApplicationSerializer
 

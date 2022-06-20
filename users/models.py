@@ -1,5 +1,4 @@
 from email.mime import image
-import numbers
 from django.db import models
 from django.forms import IntegerField
 from datetime import date
@@ -10,15 +9,15 @@ today = date.today()
 
 
 # Application form
-SHAXS = [
+PERSON = [
     ("yuridik", "Yuridik"),
     ("jismoniy", "Jismoniy"),
 ]
 
-class Applications_form(models.Model):
-    shaxs = models.CharField(
+class SponsorApplication(models.Model):
+    person = models.CharField(
         max_length=20,
-        choices = SHAXS
+        choices = PERSON,
     )
     full_name = models.CharField(max_length=100)
     number = models.IntegerField()
@@ -38,9 +37,9 @@ CONDITIONS = [
 ]
 
 class Sponsor(models.Model):
-    shaxs = models.CharField(
+    person = models.CharField(
     max_length=20,
-    choices = SHAXS
+    choices = PERSON
     )
     full_name = models.CharField(max_length=100)
     number = models.IntegerField()
@@ -50,6 +49,10 @@ class Sponsor(models.Model):
         max_length = 20,
         choices = CONDITIONS
     )
+
+
+    # class Meta:
+    #     abstract = True
 
     def __str__(self):
         return self.full_name

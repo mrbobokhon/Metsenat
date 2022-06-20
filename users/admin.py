@@ -7,5 +7,5 @@ from .models import *
 
 admin.site.register(Student)
 admin.site.register(Sponsor)
-admin.site.register(Applications_form)
+admin.site.register(SponsorApplication)
 # admin.site.register(Sponsor_student)

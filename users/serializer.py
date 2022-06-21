@@ -14,8 +14,14 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = '__all__'
 
+
 class SponsorApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = SponsorApplication
         fields = '__all__'
-        
+
+class UniversitySerialiser(serializers.ModelSerializer):
+
+    class Meta:
+        model = UniversityModel
+        fields = '__all__'

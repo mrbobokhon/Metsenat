@@ -8,4 +8,4 @@ from .models import *
 admin.site.register(Student)
 admin.site.register(Sponsor)
 admin.site.register(SponsorApplication)
-# admin.site.register(Sponsor_student)
+admin.site.register(UniversityModel)

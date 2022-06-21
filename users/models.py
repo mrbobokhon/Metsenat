@@ -14,8 +14,7 @@ PERSON = [
     ("jismoniy", "Jismoniy"),
 ]
 
-
-class SponsorApplication(models.Model):
+class SponsorApplicationModel(models.Model):
     person = models.CharField(
         max_length=20,
         choices=PERSON,
@@ -51,12 +50,12 @@ class UniversityModel(models.Model):
     def __str__(self):
         return self.name_of_university
 
-class Sponsor(models.Model):
-    shaxs = models.CharField(
+class SponsorModel(models.Model):
+    person = models.CharField(
         max_length=20,
         choices=PERSON
     )
-    full_name = models.CharField(verbose_name="Toliq isim", max_length=100)
+    full_name = models.CharField(max_length=100)
     number = models.IntegerField()
     money = IntegerField()
     name_of_company = models.CharField(max_length=100)
@@ -70,7 +69,7 @@ class Sponsor(models.Model):
         verbose_name_plural = "Homiylar"
 
     def __str__(self):
-        return self.full_name
+        return self.full_name 
 
 
 # Students
@@ -81,8 +80,7 @@ MAJORS = [
 ]
 
 
-
-class Student(models.Model):
+class StudentModel(models.Model):
     photo = models.ImageField(upload_to=today)
     full_name = models.CharField(max_length=100)
     number = models.IntegerField()
@@ -93,11 +91,11 @@ class Student(models.Model):
     )
     demand = models.IntegerField()
     paid_money = models.IntegerField()
-    sponsors = models.ManyToManyField(Sponsor, verbose_name="Sponsors of Students")
+    sponsors = models.ManyToManyField(SponsorModel, verbose_name="Sponsors of Students")
 
     class Meta:
         verbose_name = "O'quvchilar"
         verbose_name_plural = "O'quvchilar"
 
     def __str__(self):
-        return self.full_name
+        return self.full_name 

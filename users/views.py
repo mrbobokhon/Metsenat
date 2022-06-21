@@ -1,3 +1,4 @@
+from urllib import response
 from django.shortcuts import render
 from .serializer import *
 from .models import *
@@ -5,7 +6,6 @@ from rest_framework import generics
 
 
 # Create your views here.
-
 class StudentsView(generics.ListAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer

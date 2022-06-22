@@ -1,5 +1,3 @@
-# from tabnanny import verbose
-from tabnanny import verbose
 from django.db import models
 from django.forms import IntegerField
 from datetime import date
@@ -77,7 +75,6 @@ class SponsorModel(BaseModel):
         choices=CONDITIONS
     )
 
-
     class Meta:
         verbose_name = "Homiylar"
         verbose_name_plural = "Homiylar"
@@ -93,7 +90,6 @@ MAJORS = [
     ("magistratura", "Magistratura"),
     ("aspirantura", "Aspirantura"),
 ]
-
 
 class StudentModel(BaseModel):
     photo = models.ImageField("Rasim",upload_to=today)

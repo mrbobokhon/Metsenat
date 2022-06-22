@@ -52,7 +52,7 @@ class SponsorCreateView(generics.CreateAPIView):
 class SponsorApplicationCreateView(generics.CreateAPIView):
     queryset = SponsorApplicationModel.objects.all()
     serializer_class = SponsorApplicationSerializer
-
+    print(SponsorApplicationModel.objects.all().count())
 
 # University
 class UniversityView(generics.ListAPIView):

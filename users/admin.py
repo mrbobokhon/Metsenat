@@ -5,18 +5,18 @@ from .models import *
 # Register your models here.
 
 # @register(StudentModel)
-@admin.register(StudentModel)
+@admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('full_name','number','university','major','demand','paid_money')
 
-@admin.register(SponsorModel)
+@admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
     list_display = ['full_name','number','name_of_company',]
 
-@admin.register(SponsorApplicationModel)
-class SponsorApplicationAdmin(admin.ModelAdmin):
-    list_display = ['full_name','person','money','name_of_company',]
-
-@admin.register(UniversityModel)
+@admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ['name_of_university',]
+    list_display = ['university_name',]
+
+@admin.register(StudentSponsor)
+class StudentSponsotAdmin(admin.ModelAdmin):
+    list_display = ['student', 'sponsor','money']

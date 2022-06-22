@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.forms import IntegerField
 from datetime import date
@@ -8,70 +9,51 @@ today = date.today()
 
 # BaseModel
 class BaseModel(models.Model):
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.CharField(max_length=250)
+    # created_by = models.ForeignKey()
 
     class Meta:
         abstract = True
 
 
-# Application form
-PERSON = [
-    ("yuridik", "Yuridik"),
-    ("jismoniy", "Jismoniy"),
-]
-
-
-class SponsorApplicationModel(BaseModel):
-    person = models.CharField(
-        "Shaxs",
-        max_length=20,
-        choices=PERSON,
-    )
-    full_name = models.CharField("F.I.SH",max_length=100)
-    number = models.CharField("Telefon raqam",max_length=50)
-    money = IntegerField()
-    name_of_company = models.CharField("Firma/Kompaniya nomi",max_length=100)
-
-    class Meta:
-        verbose_name = "Ariza Formasi"
-        verbose_name_plural = "Ariza Formasi"
-
-    def __str__(self):
-        return self.full_name
-
-
-# Sponsors
-CONDITIONS = [
-    ("yangi", "Yangi"),
-    ("tasdiqlangan", "Tasdiqlamgan"),
-    ("moderatsiyada", "Moderatsiyada"),
-    ("bekor qilingan", "Bekor Qilingan"),
-]
-
-
-class UniversityModel(BaseModel):
-    name_of_university = models.CharField("Universtitetning Nomi",max_length=250)
+# University
+class University(BaseModel):
+    university_name = models.CharField("Universtitetning Nomi",max_length=250)
 
     class Meta:
         verbose_name = "Universitet"
         verbose_name_plural = "Universitet"
 
     def __str__(self):
-        return self.name_of_university
+        return self.university_name
 
 
-class SponsorModel(BaseModel):
-    person = models.CharField(
-        "Shaxs",
-        max_length=20,
+# Sponsor
+PERSON = [
+    (1,"Yuridik"),
+    (2, "Jismoniy"),
+]
+
+
+CONDITIONS = [
+    (1, "Yangi"),
+    (2, "Tasdiqlamgan"),
+    (3, "Moderatsiyada"),
+    (4, "Bekor Qilingan"),
+]
+
+class Sponsor(BaseModel):
+    person = models.IntegerField(
+        "Shaxs turi",
         choices=PERSON
     )
-    full_name = models.CharField("F.I.SH",max_length=100)
-    number = models.CharField("Telefon Raqam",max_length=50)
+    full_name = models.CharField("F.I.SH",max_length=250)
+    number = models.CharField("Telefon Raqam",max_length=250)
     money = IntegerField()
-    name_of_company = models.CharField("Firma/Kompaniya nomi",max_length=100)
-    condition = models.CharField(
+    name_of_company = models.CharField("Firma/Kompaniya nomi",max_length=250)
+    condition = models.IntegerField(
         "Holat",
-        max_length=20,
         choices=CONDITIONS
     )
 
@@ -82,32 +64,44 @@ class SponsorModel(BaseModel):
     def __str__(self):
         return self.full_name
 
+
+
     # Students
-
-
 MAJORS = [
-    ("bakalavr", "Bakalavr"),
-    ("magistratura", "Magistratura"),
-    ("aspirantura", "Aspirantura"),
+    (1, "Bakalavr"),
+    (2, "Magistratura"),
+    (3, "Aspirantura"),
 ]
 
-class StudentModel(BaseModel):
+class Student(BaseModel):
     photo = models.ImageField("Rasim",upload_to=today)
-    full_name = models.CharField("F.I.SH",max_length=100)
+    full_name = models.CharField("F.I.SH",max_length=250)
     number = models.IntegerField("Telefon Raqam")
-    university = models.ForeignKey(UniversityModel, verbose_name="Institut", on_delete=models.CASCADE)
-    major = models.CharField(
-        "Yo'nalish",
-        max_length=50,
+    university = models.ForeignKey(University, verbose_name="Institut", on_delete=models.CASCADE)
+    major = models.IntegerField(
+        "Talim turi",
         choices=MAJORS
     )
     demand = models.IntegerField("Soralgan pull miqdori")
     paid_money = models.IntegerField("To'langan pull miqdori")
-    sponsors = models.ManyToManyField(SponsorModel, verbose_name="Homiy")
+
 
     class Meta:
-        verbose_name = "O'quvchilar"
-        verbose_name_plural = "O'quvchilar"
+        verbose_name = "Talaba"
+        verbose_name_plural = "Talabalar"
 
     def __str__(self):
         return self.full_name
+
+
+class StudentSponsor(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE, verbose_name="Talaba" ,)
+    sponsor = models.ForeignKey(Sponsor,verbose_name="Homiy",on_delete=models.CASCADE)
+    money = models.IntegerField(verbose_name="Pull miqdori")
+
+    class Meta:
+        verbose_name = "Talaba vs Homiy"
+        verbose_name_plural = "Talaba va Homiylar"
+
+    def __str__(self):
+        return f"{self.student}  {self.sponsor}"

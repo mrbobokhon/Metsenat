@@ -5,23 +5,24 @@ from .models import *
 
 class SponsorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SponsorModel
+        model = Sponsor
         fields = '__all__'
 
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = StudentModel
+        model = Student
         fields = '__all__'
 
-
-class SponsorApplicationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SponsorApplicationModel
-        fields = '__all__'
 
 class UniversitySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = UniversityModel
+        model = University
+        fields = '__all__'
+
+class StudentSponsorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentSponsor
         fields = '__all__'

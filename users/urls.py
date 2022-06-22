@@ -11,7 +11,6 @@ urlpatterns = [
     path('sponsor/<int:pk>', SponsorsDetailView.as_view()),
     path('sponsor-delete/<int:pk>', SponsorDeleteView.as_view()),
     path('sponsor-create/', SponsorCreateView.as_view()),
-    path('app-form/', SponsorApplicationCreateView.as_view()),
     # 
     path('university/', UniversityView.as_view()),
     path('university/<int:pk>', UniversityDetailView.as_view()),

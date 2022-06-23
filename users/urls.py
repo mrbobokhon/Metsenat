@@ -16,4 +16,9 @@ urlpatterns = [
     path('university/<int:pk>', UniversityDetailView.as_view()),
     path('university-delete', UniversityDeleteView.as_view()),
     path('university-create/', UniversityCreateView.as_view),
+    # 
+    path('student-sponsor/',StudentSponsorView.as_view()),
+    path('student-sponsor/<int:pk>',StudentSponsorDetailView.as_view()),
+    path('student-sponsor-create/',StudentSponsorCreateView.as_view()),
+    path('student-sponsor/<int:pk>',StudentSponsorDeleteView.as_view()),
 ] 

@@ -67,3 +67,21 @@ class UniversityDetailView(generics.RetrieveAPIView):
 class UniversityDeleteView(generics.DestroyAPIView):
     queryset = University.objects.all()
     serializer_class  =UniversitySerializer
+
+
+# StudentSponsor
+class StudentSponsorView(generics.ListAPIView):
+    queryset = StudentSponsor.objects.all()
+    serializer_class = StudentSponsorSerializer
+
+class StudentSponsorDetailView(generics.RetrieveAPIView):
+    queryset = StudentSponsor.objects.all()
+    serializer_class = StudentSponsorSerializer
+
+class StudentSponsorCreateView(generics.CreateAPIView):
+    queryset = StudentSponsor.objects.all()
+    serializer_class = StudentSponsorSerializer
+
+class StudentSponsorDeleteView(generics.DestroyAPIView):
+    queryset = StudentSponsor.objects.all()
+    serializer_class = StudentSponsorSerializer

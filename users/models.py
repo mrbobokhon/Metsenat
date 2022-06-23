@@ -128,7 +128,7 @@ def check_budget(sender, instance, **kwargs):
     sponsor = Sponsor.objects.get(id=instance.sponsor.id)
     student_reminder = student.demand - student.paid_money
 
-    if sponsor.budget >= instance.money and student.demand < student.paid_money and student_reminder >= instance.money:
+    if sponsor.budget >= instance.money and student.demand >  student.paid_money and student_reminder >= instance.money:
         sponsor.budget -= instance.money
         student.paid_money += instance.money
         student.save()
@@ -136,4 +136,3 @@ def check_budget(sender, instance, **kwargs):
     else:
         raise ValidationError(f"{instance.money} Bu summani Qosha olamaysiz")
 
-# pre_save.connect(save_profile, sender=StudentSponsor)

@@ -1,12 +1,9 @@
-from email.policy import default
-from optparse import Values
 from django.db import models
 from django.dispatch import receiver
 from django.forms import IntegerField
 from datetime import date
-from django.core.exceptions import ValidationError
-from django.db.models.signals import pre_save, post_save, pre_delete
 from rest_framework.exceptions import ValidationError
+from users.Signals import *
 
 
 today = date.today()
@@ -37,21 +34,18 @@ class University(BaseModel):
 
 
 # Sponsor
-PERSON = [
+class Sponsor(BaseModel):
+    PERSON = [
     (1, "Yuridik"),
     (2, "Jismoniy"),
-]
-
-
-CONDITIONS = [
+    ]
+    CONDITIONS = [
     (1, "Yangi"),
     (2, "Tasdiqlamgan"),
     (3, "Moderatsiyada"),
     (4, "Bekor Qilingan"),
-]
+    ]
 
-
-class Sponsor(BaseModel):
     person = models.IntegerField(
         "Shaxs turi",
         choices=PERSON
@@ -75,14 +69,14 @@ class Sponsor(BaseModel):
 
 
     # Students
-MAJORS = [
+class Student(BaseModel):
+    MAJORS = [
     (1, "Bakalavr"),
     (2, "Magistratura"),
     (3, "Aspirantura"),
-]
+    ]
 
 
-class Student(BaseModel):
     photo = models.ImageField("Rasim", upload_to=today)
     full_name = models.CharField("F.I.SH", max_length=250)
     number = models.IntegerField("Telefon Raqam")
@@ -118,30 +112,3 @@ class StudentSponsor(models.Model):
         return f"{self.student}  {self.sponsor}"
 
 
-@receiver(pre_save, sender=StudentSponsor)
-def check_budget(sender, instance, **kwargs):
-    """"This pre_save Signal method checks the budget also adds  money or minuses"""
-    student = Student.objects.get(id=instance.student.id)
-    sponsor = Sponsor.objects.get(id=instance.sponsor.id)
-    student_reminder = student.demand - student.paid_money
-
-    if sponsor.budget >= instance.money and student.demand >  student.paid_money and student_reminder >= instance.money:
-        sponsor.budget -= instance.money
-        sponsor.paid_money += instance.money
-        student.paid_money += instance.money
-        student.save()
-        sponsor.save()
-    else:
-        raise ValidationError(f"{instance.money} Bu summani Qosha olamaysiz")
-
-@receiver(pre_delete, sender = StudentSponsor)
-def delete_budeget(sender, instance,**kyargs):
-    """"This Signal function deletes paid_money in both Student and Sponsor"""
-    student = Student.objects.get(id=instance.student.id)
-    sponsor = Sponsor.objects.get(id=instance.sponsor.id)
-
-    student.paid_money -= instance.money
-    sponsor.paid_money -= instance.money
-
-    sponsor.save()
-    student.save()

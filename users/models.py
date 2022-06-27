@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.forms import IntegerField
 from datetime import date
 from django.core.exceptions import ValidationError
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, pre_delete
 from rest_framework.exceptions import ValidationError
 
 
@@ -64,10 +64,7 @@ class Sponsor(BaseModel):
         choices=CONDITIONS
     )
     budget = models.IntegerField(default=0)
-
-    def value_to_string(self, obj):
-        value = self.value_from_object(self.money)
-        return self.get_prep_value(value)
+    paid_money = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = "Homiylar"
@@ -111,7 +108,7 @@ class StudentSponsor(models.Model):
         Student, on_delete=models.CASCADE, verbose_name="Talaba")
     sponsor = models.ForeignKey(
         Sponsor, verbose_name="Homiy", on_delete=models.CASCADE)
-    money = models.IntegerField(verbose_name="Pull miqdori")
+    money = models.IntegerField(verbose_name="To'langan Pull miqdori")
 
     class Meta:
         verbose_name = "Talaba vs Homiy"
@@ -130,9 +127,21 @@ def check_budget(sender, instance, **kwargs):
 
     if sponsor.budget >= instance.money and student.demand >  student.paid_money and student_reminder >= instance.money:
         sponsor.budget -= instance.money
+        sponsor.paid_money += instance.money
         student.paid_money += instance.money
         student.save()
         sponsor.save()
     else:
         raise ValidationError(f"{instance.money} Bu summani Qosha olamaysiz")
 
+@receiver(pre_delete, sender = StudentSponsor)
+def delete_budeget(sender, instance,**kyargs):
+    """"This Signal function deletes paid_money in both Student and Sponsor"""
+    student = Student.objects.get(id=instance.student.id)
+    sponsor = Sponsor.objects.get(id=instance.sponsor.id)
+
+    student.paid_money -= instance.money
+    sponsor.paid_money -= instance.money
+
+    sponsor.save()
+    student.save()

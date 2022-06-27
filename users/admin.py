@@ -11,7 +11,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
-    list_display = ['full_name','number','name_of_company','budget',]
+    list_display = ['full_name','number','name_of_company','budget', 'paid_money',]
 
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):

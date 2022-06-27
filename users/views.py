@@ -1,4 +1,3 @@
-from urllib import response
 from django.shortcuts import render
 from .serializer import *
 from .models import *

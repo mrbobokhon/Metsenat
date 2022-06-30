@@ -2,7 +2,6 @@ from dataclasses import fields
 from rest_framework import serializers
 from .models import *
 
-
 class SponsorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor

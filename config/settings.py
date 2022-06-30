@@ -39,9 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users',
-    'rest_framework',
     'rest_framework_swagger',
     'drf_yasg',
+    # 'oauth2_provider',
+    # 'rest_framework.authtoken',
+    'rest_authtoken',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth'
 ]
 
 MIDDLEWARE = [
@@ -134,7 +139,14 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Token Auth
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_authtoken.auth.AuthTokenAuthentication',
+    ),
+}
 try:
     from .local_settings import *
 except ImportError:
     pass
+
